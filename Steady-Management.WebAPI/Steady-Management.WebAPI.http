@@ -1,0 +1,6 @@
+@Steady_Management.WebAPI_HostAddress = http://localhost:5233
+
+GET {{Steady_Management.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\C# Solutions\\Stready-Management\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CC9515FB-2311-4232-BCE4-5ACAE243AB1A}|Steady-Management.Test\\Steady-Management.Test.csproj|c:\\c# solutions\\stready-management\\steady-management.test\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC9515FB-2311-4232-BCE4-5ACAE243AB1A}|Steady-Management.Test\\Steady-Management.Test.csproj|solutionrelative:steady-management.test\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|c:\\c# solutions\\stready-management\\steady-management.business\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|solutionrelative:steady-management.business\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3940CCC1-F54C-42CD-AA8A-F56111E8156D}|Steady-Management.DataAccess\\Steady-Management.DataAccess.csproj|c:\\c# solutions\\stready-management\\steady-management.dataaccess\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3940CCC1-F54C-42CD-AA8A-F56111E8156D}|Steady-Management.DataAccess\\Steady-Management.DataAccess.csproj|solutionrelative:steady-management.dataaccess\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|c:\\c# solutions\\stready-management\\steady-management.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|solutionrelative:steady-management.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Test\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "Steady-Management.Test\\UnitTest1.cs",
+              "ToolTip": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Test\\UnitTest1.cs",
+              "RelativeToolTip": "Steady-Management.Test\\UnitTest1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T04:10:58.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Business\\Class1.cs",
+              "RelativeDocumentMoniker": "Steady-Management.Business\\Class1.cs",
+              "ToolTip": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Business\\Class1.cs",
+              "RelativeToolTip": "Steady-Management.Business\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T04:09:02.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\C# Solutions\\Stready-Management\\Steady-Management.DataAccess\\Class1.cs",
+              "RelativeDocumentMoniker": "Steady-Management.DataAccess\\Class1.cs",
+              "ToolTip": "C:\\C# Solutions\\Stready-Management\\Steady-Management.DataAccess\\Class1.cs",
+              "RelativeToolTip": "Steady-Management.DataAccess\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T04:08:41.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Domain\\Class1.cs",
+              "RelativeDocumentMoniker": "Steady-Management.Domain\\Class1.cs",
+              "ToolTip": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Domain\\Class1.cs",
+              "RelativeToolTip": "Steady-Management.Domain\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T04:08:19.007Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
