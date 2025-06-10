@@ -8,6 +8,7 @@
 - [ ] **CRUD de Productos**
 - [ ] **CRUD de Pedidos**
 - [ ] **Despliegue en servidor** (backend)
+- [ ] **Diagramas UML de paquetes y de clase**
 - [ ] **Formular documento**  
   - Portada  
   - Objetivos  
