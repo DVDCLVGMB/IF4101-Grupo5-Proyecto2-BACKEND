@@ -1,22 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\C# Solutions\\Stready-Management\\",
+  "WorkspaceRootPath": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CC9515FB-2311-4232-BCE4-5ACAE243AB1A}|Steady-Management.Test\\Steady-Management.Test.csproj|c:\\c# solutions\\stready-management\\steady-management.test\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CC9515FB-2311-4232-BCE4-5ACAE243AB1A}|Steady-Management.Test\\Steady-Management.Test.csproj|solutionrelative:steady-management.test\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{11C4C13E-0595-470F-9E83-AF8FFF509BC2}|Steady-Management.WebAPI\\Steady-Management.WebAPI.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{11C4C13E-0595-470F-9E83-AF8FFF509BC2}|Steady-Management.WebAPI\\Steady-Management.WebAPI.csproj|solutionrelative:steady-management.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|c:\\c# solutions\\stready-management\\steady-management.business\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3940CCC1-F54C-42CD-AA8A-F56111E8156D}|Steady-Management.DataAccess\\Steady-Management.DataAccess.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.dataaccess\\clientdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3940CCC1-F54C-42CD-AA8A-F56111E8156D}|Steady-Management.DataAccess\\Steady-Management.DataAccess.csproj|solutionrelative:steady-management.dataaccess\\clientdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.domain\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|solutionrelative:steady-management.domain\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|solutionrelative:steady-management.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.business\\clientbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|solutionrelative:steady-management.business\\clientbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11C4C13E-0595-470F-9E83-AF8FFF509BC2}|Steady-Management.WebAPI\\Steady-Management.WebAPI.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.webapi\\controllers\\clientscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11C4C13E-0595-470F-9E83-AF8FFF509BC2}|Steady-Management.WebAPI\\Steady-Management.WebAPI.csproj|solutionrelative:steady-management.webapi\\controllers\\clientscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.domain\\steady-management.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|solutionrelative:steady-management.domain\\steady-management.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.business\\steady-management.business.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|solutionrelative:steady-management.business\\steady-management.business.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.business\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{452FC80A-0B18-41B0-B93B-42BEF240F587}|Steady-Management.Business\\Steady-Management.Business.csproj|solutionrelative:steady-management.business\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3940CCC1-F54C-42CD-AA8A-F56111E8156D}|Steady-Management.DataAccess\\Steady-Management.DataAccess.csproj|c:\\c# solutions\\stready-management\\steady-management.dataaccess\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3940CCC1-F54C-42CD-AA8A-F56111E8156D}|Steady-Management.DataAccess\\Steady-Management.DataAccess.csproj|solutionrelative:steady-management.dataaccess\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC9515FB-2311-4232-BCE4-5ACAE243AB1A}|Steady-Management.Test\\Steady-Management.Test.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.test\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC9515FB-2311-4232-BCE4-5ACAE243AB1A}|Steady-Management.Test\\Steady-Management.Test.csproj|solutionrelative:steady-management.test\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|c:\\c# solutions\\stready-management\\steady-management.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}|Steady-Management.Domain\\Steady-Management.Domain.csproj|solutionrelative:steady-management.domain\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3940CCC1-F54C-42CD-AA8A-F56111E8156D}|Steady-Management.DataAccess\\Steady-Management.DataAccess.csproj|c:\\users\\innovation computers\\documents\\2025\\lenguajesaplicacionescomerciales\\if4101-grupo5-proyecto2-backend\\steady-management.dataaccess\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3940CCC1-F54C-42CD-AA8A-F56111E8156D}|Steady-Management.DataAccess\\Steady-Management.DataAccess.csproj|solutionrelative:steady-management.dataaccess\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,28 +54,144 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UnitTest1.cs",
-              "DocumentMoniker": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Test\\UnitTest1.cs",
-              "RelativeDocumentMoniker": "Steady-Management.Test\\UnitTest1.cs",
-              "ToolTip": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Test\\UnitTest1.cs",
-              "RelativeToolTip": "Steady-Management.Test\\UnitTest1.cs",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.WebAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "Steady-Management.WebAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.WebAPI\\appsettings.json",
+              "RelativeToolTip": "Steady-Management.WebAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-22T03:43:06.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ClientBusiness.cs",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Business\\ClientBusiness.cs",
+              "RelativeDocumentMoniker": "Steady-Management.Business\\ClientBusiness.cs",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Business\\ClientBusiness.cs",
+              "RelativeToolTip": "Steady-Management.Business\\ClientBusiness.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-22T03:19:43.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClientData.cs",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.DataAccess\\ClientData.cs",
+              "RelativeDocumentMoniker": "Steady-Management.DataAccess\\ClientData.cs",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.DataAccess\\ClientData.cs",
+              "RelativeToolTip": "Steady-Management.DataAccess\\ClientData.cs",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAmwHsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-22T03:20:42.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Steady-Management.Domain",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Domain\\Steady-Management.Domain.csproj",
+              "RelativeDocumentMoniker": "Steady-Management.Domain\\Steady-Management.Domain.csproj",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Domain\\Steady-Management.Domain.csproj",
+              "RelativeToolTip": "Steady-Management.Domain\\Steady-Management.Domain.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-22T03:20:00.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Client.cs",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Domain\\Client.cs",
+              "RelativeDocumentMoniker": "Steady-Management.Domain\\Client.cs",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Domain\\Client.cs",
+              "RelativeToolTip": "Steady-Management.Domain\\Client.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-22T03:20:10.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ClientsController.cs",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.WebAPI\\Controllers\\ClientsController.cs",
+              "RelativeDocumentMoniker": "Steady-Management.WebAPI\\Controllers\\ClientsController.cs",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.WebAPI\\Controllers\\ClientsController.cs",
+              "RelativeToolTip": "Steady-Management.WebAPI\\Controllers\\ClientsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-22T03:22:31.84Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Domain\\Class1.cs",
+              "RelativeDocumentMoniker": "Steady-Management.Domain\\Class1.cs",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Domain\\Class1.cs",
+              "RelativeToolTip": "Steady-Management.Domain\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T04:08:19.007Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Steady-Management.Business",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Business\\Steady-Management.Business.csproj",
+              "RelativeDocumentMoniker": "Steady-Management.Business\\Steady-Management.Business.csproj",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Business\\Steady-Management.Business.csproj",
+              "RelativeToolTip": "Steady-Management.Business\\Steady-Management.Business.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-22T03:26:46.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Test\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "Steady-Management.Test\\UnitTest1.cs",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Test\\UnitTest1.cs",
+              "RelativeToolTip": "Steady-Management.Test\\UnitTest1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-10T04:10:58.756Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
               "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Business\\Class1.cs",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Business\\Class1.cs",
               "RelativeDocumentMoniker": "Steady-Management.Business\\Class1.cs",
-              "ToolTip": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Business\\Class1.cs",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.Business\\Class1.cs",
               "RelativeToolTip": "Steady-Management.Business\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -56,28 +200,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\C# Solutions\\Stready-Management\\Steady-Management.DataAccess\\Class1.cs",
+              "DocumentMoniker": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.DataAccess\\Class1.cs",
               "RelativeDocumentMoniker": "Steady-Management.DataAccess\\Class1.cs",
-              "ToolTip": "C:\\C# Solutions\\Stready-Management\\Steady-Management.DataAccess\\Class1.cs",
+              "ToolTip": "C:\\Users\\Innovation Computers\\Documents\\2025\\LenguajesAplicacionesComerciales\\IF4101-Grupo5-Proyecto2-BACKEND\\Steady-Management.DataAccess\\Class1.cs",
               "RelativeToolTip": "Steady-Management.DataAccess\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-10T04:08:41.964Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Domain\\Class1.cs",
-              "RelativeDocumentMoniker": "Steady-Management.Domain\\Class1.cs",
-              "ToolTip": "C:\\C# Solutions\\Stready-Management\\Steady-Management.Domain\\Class1.cs",
-              "RelativeToolTip": "Steady-Management.Domain\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T04:08:19.007Z",
               "EditorCaption": ""
             }
           ]

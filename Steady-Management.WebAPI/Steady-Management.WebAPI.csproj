@@ -15,4 +15,9 @@
     <Folder Include="DTOs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Steady-Management.Business\Steady-Management.Business.csproj" />
+    <ProjectReference Include="..\Steady-Management.Domain\Steady-Management.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
