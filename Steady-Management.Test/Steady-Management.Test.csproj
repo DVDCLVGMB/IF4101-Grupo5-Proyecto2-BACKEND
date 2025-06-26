@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Steady-Management.DataAccess\Steady-Management.DataAccess.csproj" />
+    <ProjectReference Include="..\Steady-Management.Domain\Steady-Management.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
