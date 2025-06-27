@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steady-Management.Domain", "Steady-Management.Domain\Steady-Management.Domain.csproj", "{DAC66890-9F3C-4E52-AEFA-1ED2AF8B5928}"
 EndProject
@@ -10,6 +10,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steady-Management.Business", "Steady-Management.Business\Steady-Management.Business.csproj", "{452FC80A-0B18-41B0-B93B-42BEF240F587}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steady-Management.Test", "Steady-Management.Test\Steady-Management.Test.csproj", "{CC9515FB-2311-4232-BCE4-5ACAE243AB1A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{452FC80A-0B18-41B0-B93B-42BEF240F587} = {452FC80A-0B18-41B0-B93B-42BEF240F587}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steady-Management.WebAPI", "Steady-Management.WebAPI\Steady-Management.WebAPI.csproj", "{11C4C13E-0595-470F-9E83-AF8FFF509BC2}"
 EndProject

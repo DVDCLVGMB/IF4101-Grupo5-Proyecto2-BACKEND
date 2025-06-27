@@ -1,123 +1,121 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+using System.Data;
 using SteadyManagement.Domain;
 
 namespace Steady_Management.DataAccess
 {
     public class ClientData
     {
-        private readonly string _conn;
+        private readonly string connectionString;
 
-        public ClientData(string connectionString) => _conn = connectionString;
+        public ClientData(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
 
         // CREATE --------------------------------------------------
         public void Create(Client c)
         {
-            const string sql = @"
-                INSERT INTO Client
-                      (city_id, company_name, contact_name, contact_surname,
-                       contact_rank, client_address, client_phone_number,
-                       client_fax_number, client_postal_code)
-                VALUES (@CityId,@Company,@Name,@Surname,@Rank,
-                        @Address,@Phone,@Fax,@Postal);
-                SELECT SCOPE_IDENTITY();";
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_Client_Create", connection);
+            command.CommandType = CommandType.StoredProcedure;
 
-            using var cn = new SqlConnection(_conn);
-            using var cmd = new SqlCommand(sql, cn);
-            cmd.Parameters.AddWithValue("@CityId", c.CityId);
-            cmd.Parameters.AddWithValue("@Company", c.CompanyName);
-            cmd.Parameters.AddWithValue("@Name", c.ContactName);
-            cmd.Parameters.AddWithValue("@Surname", c.ContactSurname);
-            cmd.Parameters.AddWithValue("@Rank", c.ContactRank);
-            cmd.Parameters.AddWithValue("@Address", c.ClientAddress);
-            cmd.Parameters.AddWithValue("@Phone", c.ClientPhoneNumber);
-            cmd.Parameters.AddWithValue("@Fax", c.ClientFaxNumber);
-            cmd.Parameters.AddWithValue("@Postal", c.ClientPostalCode);
-            cn.Open();
-            c.ClientId = Convert.ToInt32(cmd.ExecuteScalar());
+            command.Parameters.AddWithValue("@city_id", c.CityId);
+            command.Parameters.AddWithValue("@company_name", c.CompanyName);
+            command.Parameters.AddWithValue("@contact_name", c.ContactName);
+            command.Parameters.AddWithValue("@contact_surname", c.ContactSurname);
+            command.Parameters.AddWithValue("@contact_rank", c.ContactRank);
+            command.Parameters.AddWithValue("@client_address", c.ClientAddress);
+            command.Parameters.AddWithValue("@client_phone_number", c.ClientPhoneNumber);
+            command.Parameters.AddWithValue("@client_fax_number", c.ClientFaxNumber);
+            command.Parameters.AddWithValue("@client_postal_code", c.ClientPostalCode);
+
+            connection.Open();
+            var result = command.ExecuteScalar();
+            c.ClientId = Convert.ToInt32(result);
         }
 
         // READ ALL -----------------------------------------------
         public List<Client> GetAll()
         {
-            const string sql = "SELECT * FROM Client";
             var list = new List<Client>();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_Client_Read", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@client_id", DBNull.Value);
 
-            using var cn = new SqlConnection(_conn);
-            using var cmd = new SqlCommand(sql, cn);
-            cn.Open();
-            using var rd = cmd.ExecuteReader();
-            while (rd.Read()) list.Add(Map(rd));
+            connection.Open();
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(Map(reader));
+            }
             return list;
         }
 
         // READ BY ID ---------------------------------------------
         public Client? GetById(int id)
         {
-            const string sql = "SELECT * FROM Client WHERE client_id=@Id";
-            using var cn = new SqlConnection(_conn);
-            using var cmd = new SqlCommand(sql, cn);
-            cmd.Parameters.AddWithValue("@Id", id);
-            cn.Open();
-            using var rd = cmd.ExecuteReader();
-            return rd.Read() ? Map(rd) : null;
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_Client_Read", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@client_id", id);
+
+            connection.Open();
+            using var reader = command.ExecuteReader();
+            return reader.Read() ? Map(reader) : null;
         }
 
         // UPDATE --------------------------------------------------
         public bool Update(Client c)
         {
-            const string sql = @"
-              UPDATE Client SET
-                  city_id=@CityId, company_name=@Company,
-                  contact_name=@Name, contact_surname=@Surname,
-                  contact_rank=@Rank, client_address=@Address,
-                  client_phone_number=@Phone, client_fax_number=@Fax,
-                  client_postal_code=@Postal
-              WHERE client_id=@Id";
-            using var cn = new SqlConnection(_conn);
-            using var cmd = new SqlCommand(sql, cn);
-            cmd.Parameters.AddWithValue("@CityId", c.CityId);
-            cmd.Parameters.AddWithValue("@Company", c.CompanyName);
-            cmd.Parameters.AddWithValue("@Name", c.ContactName);
-            cmd.Parameters.AddWithValue("@Surname", c.ContactSurname);
-            cmd.Parameters.AddWithValue("@Rank", c.ContactRank);
-            cmd.Parameters.AddWithValue("@Address", c.ClientAddress);
-            cmd.Parameters.AddWithValue("@Phone", c.ClientPhoneNumber);
-            cmd.Parameters.AddWithValue("@Fax", c.ClientFaxNumber);
-            cmd.Parameters.AddWithValue("@Postal", c.ClientPostalCode);
-            cmd.Parameters.AddWithValue("@Id", c.ClientId);
-            cn.Open();
-            return cmd.ExecuteNonQuery() > 0;
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_Client_Update", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
+            command.Parameters.AddWithValue("@client_id", c.ClientId);
+            command.Parameters.AddWithValue("@city_id", c.CityId);
+            command.Parameters.AddWithValue("@company_name", c.CompanyName);
+            command.Parameters.AddWithValue("@contact_name", c.ContactName);
+            command.Parameters.AddWithValue("@contact_surname", c.ContactSurname);
+            command.Parameters.AddWithValue("@contact_rank", c.ContactRank);
+            command.Parameters.AddWithValue("@client_address", c.ClientAddress);
+            command.Parameters.AddWithValue("@client_phone_number", c.ClientPhoneNumber);
+            command.Parameters.AddWithValue("@client_fax_number", c.ClientFaxNumber);
+            command.Parameters.AddWithValue("@client_postal_code", c.ClientPostalCode);
+
+            connection.Open();
+            return command.ExecuteNonQuery() > 0;
         }
 
         // DELETE --------------------------------------------------
         public bool Delete(int id)
         {
-            const string sql = "DELETE FROM Client WHERE client_id=@Id";
-            using var cn = new SqlConnection(_conn);
-            using var cmd = new SqlCommand(sql, cn);
-            cmd.Parameters.AddWithValue("@Id", id);
-            cn.Open();
-            return cmd.ExecuteNonQuery() > 0;
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_Client_Delete", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
+            command.Parameters.AddWithValue("@client_id", id);
+
+            connection.Open();
+            return command.ExecuteNonQuery() > 0;
         }
 
         // MAPPER --------------------------------------------------
-        private static Client Map(SqlDataReader r) => new()
+        private static Client Map(SqlDataReader reader) => new()
         {
-            ClientId = (int)r["client_id"],
-            CityId = (int)r["city_id"],
-            CompanyName = (string)r["company_name"],
-            ContactName = (string)r["contact_name"],
-            ContactSurname = (string)r["contact_surname"],
-            ContactRank = (string)r["contact_rank"],
-            ClientAddress = (string)r["client_address"],
-            ClientPhoneNumber = (string)r["client_phone_number"],
-            ClientFaxNumber = (string)r["client_fax_number"],
-            ClientPostalCode = (string)r["client_postal_code"]
+            ClientId = (int)reader["client_id"],
+            CityId = (int)reader["city_id"],
+            CompanyName = (string)reader["company_name"],
+            ContactName = (string)reader["contact_name"],
+            ContactSurname = (string)reader["contact_surname"],
+            ContactRank = (string)reader["contact_rank"],
+            ClientAddress = (string)reader["client_address"],
+            ClientPhoneNumber = (string)reader["client_phone_number"],
+            ClientFaxNumber = (string)reader["client_fax_number"],
+            ClientPostalCode = (string)reader["client_postal_code"]
         };
     }
 }
