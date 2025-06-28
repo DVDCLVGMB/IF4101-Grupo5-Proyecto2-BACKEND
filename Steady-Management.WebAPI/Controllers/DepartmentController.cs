@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Runtime.Intrinsics.Arm;
+using Microsoft.AspNetCore.Mvc;
 using Steady_Management.Business;
 using Steady_Management.Domain;
 using Steady_Management.WebAPI.DTOs;
@@ -54,7 +55,11 @@ namespace Steady_Management.WebAPI.Controllers
             var department = new Department(0, dto.DeptName);
             _business.AddDepartment(department);
 
-            return CreatedAtAction(nameof(GetById), new { id = department.DeptId }, null);
+            var resultDto = new DepartmentDto { DeptId = department.DeptId, DeptName = department.DeptName };
+
+            return CreatedAtAction(nameof(GetById),
+                                   new { id = department.DeptId },
+                                   resultDto);
         }
 
         [HttpPut("{id}")]
