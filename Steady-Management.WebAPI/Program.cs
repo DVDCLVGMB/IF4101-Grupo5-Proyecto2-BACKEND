@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Steady_Management.Business;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,8 @@ builder.Services.AddScoped<Steady_Management.Business.EmployeeBusiness>(sp =>
     return new Steady_Management.Business.EmployeeBusiness(employeeData);
 });
 
-
+builder.Services.AddScoped<Steady_Management.Business.RoleBusiness>();
+builder.Services.AddScoped<Steady_Management.DataAccess.RoleData>();
 
 // Add services to the container.
 

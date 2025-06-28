@@ -37,19 +37,22 @@ namespace Steady_Management.DataAccess
 
             while (await reader.ReadAsync())
             {
-                employees.Add(new Employee(
-                    reader.GetInt32(0),
-                    reader.GetInt32(1),
-                    reader.GetInt32(2),
-                    reader.GetString(3),
-                    reader.GetString(4),
-                    reader.GetString(5),
-                    reader.GetString(6)
-                ));
+                var employee = new Employee(
+                    employeeId: reader.GetInt32(reader.GetOrdinal("employee_id")),
+                    deptId: reader.GetInt32(reader.GetOrdinal("dept_id")),
+                    roleId: reader.GetInt32(reader.GetOrdinal("role_id")),
+                    extension: reader.GetString(reader.GetOrdinal("extension")),
+                    employeeName: reader.GetString(reader.GetOrdinal("employee_name")),
+                    employeeSurname: reader.GetString(reader.GetOrdinal("employee_surname")),
+                    workPhoneNumber: reader.GetString(reader.GetOrdinal("work_phone_number"))
+                );
+
+                employees.Add(employee);
             }
 
             return employees;
         }
+
 
         public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
         {
@@ -67,18 +70,19 @@ namespace Steady_Management.DataAccess
             if (await reader.ReadAsync())
             {
                 return new Employee(
-                    reader.GetInt32(0),
-                    reader.GetInt32(1),
-                    reader.GetInt32(2),
-                    reader.GetString(3),
-                    reader.GetString(4),
-                    reader.GetString(5),
-                    reader.GetString(6)
+                    employeeId: reader.GetInt32(reader.GetOrdinal("employee_id")),
+                    deptId: reader.GetInt32(reader.GetOrdinal("dept_id")),
+                    roleId: reader.GetInt32(reader.GetOrdinal("role_id")),
+                    extension: reader.GetString(reader.GetOrdinal("extension")),
+                    employeeName: reader.GetString(reader.GetOrdinal("employee_name")),
+                    employeeSurname: reader.GetString(reader.GetOrdinal("employee_surname")),
+                    workPhoneNumber: reader.GetString(reader.GetOrdinal("work_phone_number"))
                 );
             }
 
             return null;
         }
+
 
         public async Task<int> CreateEmployeeAsync(Employee employee)
         {
