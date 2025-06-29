@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Steady_Management.Business;
+using Steady_Management.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,34 @@ builder.Services.AddScoped<Steady_Management.Business.EmployeeBusiness>(sp =>
 
 builder.Services.AddScoped<Steady_Management.Business.RoleBusiness>();
 builder.Services.AddScoped<Steady_Management.DataAccess.RoleData>();
+
+builder.Services.AddScoped<ProductData>(sp =>
+{
+    var cfg = sp.GetRequiredService<IConfiguration>();
+    var connStr = cfg.GetConnectionString("DefaultConnection");
+    return new ProductData(connStr!);
+});
+
+builder.Services.AddScoped<ProductData>(sp =>
+{
+    var cfg = sp.GetRequiredService<IConfiguration>();
+    var connStr = cfg.GetConnectionString("DefaultConnection");
+    return new ProductData(connStr!);
+});
+
+builder.Services.AddScoped<ProductBusiness>();
+
+builder.Services.AddScoped<CategoryData>(sp =>
+{
+    var cfg = sp.GetRequiredService<IConfiguration>();
+    var connStr = cfg.GetConnectionString("DefaultConnection");
+    if (string.IsNullOrWhiteSpace(connStr))
+        throw new InvalidOperationException(
+            "Falta la connection string de appsettings.json");
+    return new CategoryData(connStr);
+});
+
+builder.Services.AddScoped<CategoryBusiness>();
 
 // Add services to the container.
 
