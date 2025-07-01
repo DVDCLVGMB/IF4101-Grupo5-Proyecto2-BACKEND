@@ -12,10 +12,10 @@ namespace Steady_Management.Domain
         private int paymentMethodId;
         private int orderId;
         private string creditCardNumber;
-        private int paymentQuantity;
+        private decimal paymentQuantity;
         private DateTime paymentDate;
 
-        public Payment(int paymentId, int paymentMethodId, int orderId, string creditCardNumber, int paymentQuantity, DateTime paymentDate)
+        public Payment(int paymentId, int paymentMethodId, int orderId, string creditCardNumber, decimal paymentQuantity, DateTime paymentDate)
         {
             this.paymentId = paymentId;
             this.paymentMethodId = paymentMethodId;
@@ -29,7 +29,7 @@ namespace Steady_Management.Domain
         public int PaymentMethodId { get => paymentMethodId; set => paymentMethodId = value; }
         public int OrderId { get => orderId; set => orderId = value; }
         public string CreditCardNumber { get => creditCardNumber; set => creditCardNumber = value; }
-        public int PaymentQuantity { get => paymentQuantity; set => paymentQuantity = value; }
+        public decimal PaymentQuantity { get => paymentQuantity; set => paymentQuantity = value; }
         public DateTime PaymentDate { get => paymentDate; set => paymentDate = value; }
     }
 }

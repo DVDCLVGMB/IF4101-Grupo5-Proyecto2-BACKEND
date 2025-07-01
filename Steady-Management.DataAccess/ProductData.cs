@@ -86,7 +86,7 @@ namespace Steady_Management.Data
                 rdr.GetInt32(rdr.GetOrdinal("product_id")),
                 rdr.GetInt32(rdr.GetOrdinal("category_id")),
                 rdr.GetString(rdr.GetOrdinal("product_name")),
-                (decimal)rdr.GetDouble(rdr.GetOrdinal("price")),
+                rdr.GetDecimal(rdr.GetOrdinal("price")),
                 rdr.GetBoolean(rdr.GetOrdinal("is_taxable"))
             );
         }
