@@ -53,7 +53,7 @@ namespace Steady_Management.Test
         public void CreateReadUpdateDelete_Product_Succeeds()
         {
             // Creamos el producto apuntando a la categoría que acabamos de insertar
-            var product = new Product(0, _testCategoryId, "TestProduct", 9.99f);
+            var product = new Product(0, _testCategoryId, "TestProduct", 9, true);
 
             // CREATE
             int newId = productData.Create(product);
@@ -68,7 +68,7 @@ namespace Steady_Management.Test
 
             // UPDATE
             fromDb.ProductName = "UpdatedProduct";
-            fromDb.Price = 19.95f;
+            fromDb.Price = 10;
             bool updated = productData.Update(fromDb);
             Assert.That(updated, Is.True, "La actualización debería afectar > 0 filas");
 
@@ -88,7 +88,7 @@ namespace Steady_Management.Test
         [Test]
         public void GetAll_Returns_Collection_IncludesNewProduct()
         {
-            var product = new Product(0, _testCategoryId, "ListTestProd", 5.50f);
+            var product = new Product(0, _testCategoryId, "ListTestProd", 9, true);
             int newId = productData.Create(product);
             Assert.That(newId, Is.GreaterThan(0));
             _createdProductIds.Add(newId);
