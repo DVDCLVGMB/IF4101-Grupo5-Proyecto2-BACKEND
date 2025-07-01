@@ -48,7 +48,7 @@ namespace Steady_Management.Api.Controllers
         public ActionResult<ProductDto> Create([FromBody] ProductDto dto)
         {
             // dto.ProductId se ignora en creación
-            var toInsert = new Product(0, dto.CategoryId, dto.ProductName, dto.Price);
+            var toInsert = new Product(0, dto.CategoryId, dto.ProductName, dto.Price, dto.IsTaxable);
             var newId = productBusiness.CreateProduct(toInsert);
 
             var created = productBusiness.GetProductById(newId);
@@ -66,7 +66,7 @@ namespace Steady_Management.Api.Controllers
             if (id != dto.ProductId)
                 return BadRequest("El ID de ruta no coincide con el cuerpo.");
 
-            var toUpdate = new Product(dto.ProductId, dto.CategoryId, dto.ProductName, dto.Price);
+            var toUpdate = new Product(dto.ProductId, dto.CategoryId, dto.ProductName, dto.Price, dto.IsTaxable);
             try
             {
                 productBusiness.UpdateProduct(toUpdate);
@@ -99,7 +99,8 @@ namespace Steady_Management.Api.Controllers
             ProductId = p.ProductId,
             CategoryId = p.CategoryId,
             ProductName = p.ProductName,
-            Price = p.Price
+            Price = p.Price,
+            IsTaxable = p.IsTaxable
         };
     }
 }

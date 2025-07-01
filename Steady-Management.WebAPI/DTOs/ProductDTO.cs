@@ -5,6 +5,7 @@
         public int ProductId { get; set; }        // Se ignora en POST
         public int CategoryId { get; set; }
         public string ProductName { get; set; } = string.Empty;
-        public float Price { get; set; }
+        public decimal Price { get; set; }
+        public bool IsTaxable { get; set; }
     }
 }

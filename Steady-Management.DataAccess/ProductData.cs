@@ -29,6 +29,7 @@ namespace Steady_Management.Data
             cmd.Parameters.AddWithValue("@category_id", product.CategoryId);
             cmd.Parameters.AddWithValue("@product_name", product.ProductName);
             cmd.Parameters.AddWithValue("@price", product.Price);
+            cmd.Parameters.AddWithValue("@is_taxable", product.Price);
 
             conn.Open();
             var result = cmd.ExecuteScalar();
@@ -57,7 +58,8 @@ namespace Steady_Management.Data
                     rdr.GetInt32(rdr.GetOrdinal("product_id")),
                     rdr.GetInt32(rdr.GetOrdinal("category_id")),
                     rdr.GetString(rdr.GetOrdinal("product_name")),
-                    (float)rdr.GetDouble(rdr.GetOrdinal("price"))
+                    (decimal)rdr.GetDouble(rdr.GetOrdinal("price")),
+                    rdr.GetBoolean(rdr.GetOrdinal("is_taxable"))
                 ));
             }
 
@@ -84,7 +86,8 @@ namespace Steady_Management.Data
                 rdr.GetInt32(rdr.GetOrdinal("product_id")),
                 rdr.GetInt32(rdr.GetOrdinal("category_id")),
                 rdr.GetString(rdr.GetOrdinal("product_name")),
-                (float)rdr.GetDouble(rdr.GetOrdinal("price"))
+                (decimal)rdr.GetDouble(rdr.GetOrdinal("price")),
+                rdr.GetBoolean(rdr.GetOrdinal("is_taxable"))
             );
         }
 
@@ -103,6 +106,7 @@ namespace Steady_Management.Data
             cmd.Parameters.AddWithValue("@category_id", product.CategoryId);
             cmd.Parameters.AddWithValue("@product_name", product.ProductName);
             cmd.Parameters.AddWithValue("@price", product.Price);
+            cmd.Parameters.AddWithValue("@is_taxable", product.IsTaxable);
 
             conn.Open();
             var rows = cmd.ExecuteNonQuery();
