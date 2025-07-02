@@ -1,64 +1,51 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Steady_Management.Business;
 using Steady_Management.WebAPI.DTOs;
-using Microsoft.Extensions.Configuration;
+using Steady_Management.WebAPI.Services;
 
 namespace Steady_Management.WebAPI.Controllers
 {
-    /// <summary>
-    /// End‑point para inicio de sesión.
-    /// </summary>
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
         private readonly AuthBusiness _auth;
+        private readonly TokenService _tokenSvc;
 
-        // Inyección de IConfiguration para leer la cadena de conexión
-        public LoginController(IConfiguration configuration)
+        public LoginController(IConfiguration cfg)
         {
-            string connStr = configuration.GetConnectionString("DefaultConnection")
-                              ?? throw new InvalidOperationException(
-                                   "No se encontró ConnectionString 'DefaultConnection'.");
-            _auth = new AuthBusiness(connStr);
+            string cs = cfg.GetConnectionString("DefaultConnection")
+                         ?? throw new InvalidOperationException("ConnString missing");
+            _auth = new AuthBusiness(cs);
+            _tokenSvc = new TokenService(cfg);
         }
 
-        /// <summary>
-        /// POST: api/Login
-        /// Body: { "username": "...", "password": "..." }
-        /// </summary>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Login([FromBody] LoginRequestDTO request)
+        public IActionResult Login([FromBody] LoginRequestDTO req)
         {
-            // 1️⃣  Validación básica del payload
-            if (request == null ||
-                string.IsNullOrWhiteSpace(request.Username) ||
-                string.IsNullOrWhiteSpace(request.Password))
-            {
-                return BadRequest("Username y Password son requeridos.");
-            }
+            if (req is null || string.IsNullOrWhiteSpace(req.Username) || string.IsNullOrWhiteSpace(req.Password))
+                return BadRequest("Username y Password requeridos.");
 
-            // 2️⃣  Autenticación
-            var user = _auth.ValidateCredentials(request.Username, request.Password);
-
-            if (user == null)
-            {
+            var user = _auth.ValidateCredentials(req.Username, req.Password);
+            if (user is null)
                 return Unauthorized(new { message = "Credenciales inválidas." });
-            }
 
-            // 3️⃣  Éxito → retornar la información necesaria.
-            //      Aquí solo devolvemos lo mínimo; si luego generas JWT, hazlo aquí.
-            var response = new
+            var token = _tokenSvc.BuildToken(user);
+
+            var resp = new LoginResponseDTO
             {
-                userId = user.UserId,
-                username = user.UserLogin,
-                roleId = user.RoleId
+                Token = token,
+                UserId = user.UserId,
+                Username = user.UserLogin,
+                RoleId = user.RoleId
             };
 
-            return Ok(response);
+            return Ok(resp);
         }
     }
 }
