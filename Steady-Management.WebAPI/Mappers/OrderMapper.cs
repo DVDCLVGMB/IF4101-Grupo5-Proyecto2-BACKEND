@@ -42,6 +42,29 @@ namespace Steady_Management.WebAPI.Mappers
                 paymentDate: dto.PaymentDate
             );
         }
+
+        //Convertir de entidades → DTO para lectura
+        public static OrderDTO ToOrderDto(Order order, List<OrderDetail> details, Payment payment, string paymentMethodName)
+        {
+            return new OrderDTO
+            {
+                ClientId = order.ClientId,
+                EmployeeId = order.EmployeeId,
+                CityId = order.CityId,
+                OrderDate = order.OrderDate,
+                OrderDetails = details.Select(d => new OrderDetailDTO
+                {
+                    ProductId = d.ProductId,
+                    Quantity = d.Quantity,
+                    UnitPrice = d.UnitPrice
+                }).ToList(),
+                PaymentMethodId = payment.PaymentMethodId,
+                PaymentDate = payment.PaymentDate,
+                CreditCardNumber = payment.CreditCardNumber,
+                PaymentQuantity = payment.PaymentQuantity,
+                PaymentMethodName = paymentMethodName
+            };
+        }
     }
 }
 

@@ -34,15 +34,18 @@ namespace Steady_Management.Business
 
                 foreach (var detail in details)
                 {
+                    var product = _productData.GetById(detail.ProductId);
+                    if (product == null)
+                        throw new InvalidOperationException("Error en la inserción. Compruebe los datos ingresados.");
+
                     var inventory = _orderData.GetInventoryByProductId(detail.ProductId);
                     if (inventory == null || inventory.ItemQuantity < detail.Quantity)
-                        throw new InvalidOperationException($"No hay suficiente inventario para el producto {detail.ProductId}.");
+                        throw new InvalidOperationException($"No hay suficiente inventario para el producto: {product.ProductName}.");
 
-                    var product = _productData.GetById(detail.ProductId);
                     decimal subtotalProducto = detail.UnitPrice * detail.Quantity;
                     subtotal += subtotalProducto;
 
-                    if (product != null && product.IsTaxable)
+                    if (product.IsTaxable)
                         totalImpuestos += subtotalProducto * salesTaxPercentage;
 
                     detail.OrderId = orderId;
@@ -65,5 +68,127 @@ namespace Steady_Management.Business
                 throw;
             }
         }
+
+
+
+        public List<(Order Order, List<OrderDetail> Details, Payment Payment, string PaymentMethodName)> GetAllOrders()
+        {
+            var orders = _orderData.GetAllOrders();
+            var result = new List<(Order, List<OrderDetail>, Payment, string)>();
+
+            foreach (var order in orders)
+            {
+                var details = _orderData.GetOrderDetailsByOrderId(order.OrderId);
+                var payment = _orderData.GetPaymentByOrderId(order.OrderId)!;
+                var methodName = _orderData.GetPaymentMethodName(payment.PaymentMethodId);
+
+                result.Add((order, details, payment, methodName));
+            }
+
+            return result;
+        }
+
+
+        public void UpdateOrder(int orderId, Order updatedOrder, List<OrderDetail> newDetails, Payment updatedPayment)
+        {
+            using var connection = _orderData.CreateConnection();
+            connection.Open();
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                var originalDetails = _orderData.GetOrderDetailsByOrderId(orderId);
+
+                // Restaurar inventario previo
+                foreach (var detail in originalDetails)
+                {
+                    _orderData.RestoreInventoryFromCancelledOrder(detail.ProductId, detail.Quantity, connection, transaction);
+                }
+
+                // Eliminar detalles y pago anterior
+                _orderData.DeleteOrderDetails(orderId, connection, transaction);
+                _orderData.DeletePayment(orderId, connection, transaction);
+
+                // Obtener impuesto actual
+                var salesTaxPercentage = _orderData.GetSalesTaxPercentage() / 100m;
+                decimal subtotal = 0;
+                decimal totalImpuestos = 0;
+
+                foreach (var detail in newDetails)
+                {
+                    var product = _productData.GetById(detail.ProductId);
+                    if (product == null)
+                        throw new InvalidOperationException("Error en la inserción. Compruebe los datos ingresados.");
+
+                    var inventory = _orderData.GetInventoryByProductId(detail.ProductId, connection, transaction);
+                    if (inventory == null || inventory.ItemQuantity < detail.Quantity)
+                        throw new InvalidOperationException($"No hay suficiente inventario para el producto: {product.ProductName}.");
+
+                    decimal subtotalProducto = detail.UnitPrice * detail.Quantity;
+                    subtotal += subtotalProducto;
+
+                    if (product.IsTaxable)
+                        totalImpuestos += subtotalProducto * salesTaxPercentage;
+
+                    detail.OrderId = orderId;
+                    _orderData.InsertOrderDetail(detail, connection, transaction);
+                    _orderData.UpdateInventoryAfterSale(detail.ProductId, detail.Quantity, connection, transaction);
+                }
+
+                decimal total = subtotal + totalImpuestos;
+                updatedPayment.OrderId = orderId;
+                updatedPayment.PaymentQuantity = total;
+                updatedPayment.PaymentDate = DateTime.Now;
+
+                _orderData.InsertPayment(updatedPayment, connection, transaction);
+
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+
+        public void DeleteOrder(int orderId)
+        {
+            using var connection = _orderData.CreateConnection();
+            connection.Open();
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                // 1. Obtener detalles para restaurar inventario
+                var details = _orderData.GetOrderDetailsByOrderId(orderId);
+
+                // 2. Restaurar inventario para cada producto
+                foreach (var detail in details)
+                {
+                    _orderData.RestoreInventoryFromCancelledOrder(detail.ProductId, detail.Quantity, connection, transaction);
+                }
+
+                // 3. Eliminar detalles de la orden
+                _orderData.DeleteOrderDetails(orderId, connection, transaction);
+
+                // 4. Eliminar pago
+                _orderData.DeletePayment(orderId, connection, transaction);
+
+                // 5. Eliminar orden principal
+                string sql = @"DELETE FROM [Order] WHERE order_id = @order_id";
+                using var deleteOrderCmd = new SqlCommand(sql, connection, transaction);
+                deleteOrderCmd.Parameters.AddWithValue("@order_id", orderId);
+                deleteOrderCmd.ExecuteNonQuery();
+
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
     }
 }

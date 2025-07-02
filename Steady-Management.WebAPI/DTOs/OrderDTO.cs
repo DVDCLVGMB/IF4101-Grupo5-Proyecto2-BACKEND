@@ -33,6 +33,8 @@ namespace Steady_Management.WebAPI.DTOs
         [Required]
         public int PaymentMethodId { get; set; }
 
+        public string PaymentMethodName { get; set; } = string.Empty;
+
         [Required]
         public DateTime PaymentDate { get; set; }
 
