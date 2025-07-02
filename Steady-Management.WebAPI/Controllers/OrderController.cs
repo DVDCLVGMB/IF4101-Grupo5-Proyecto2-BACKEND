@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Steady_Management.Business;
+using Steady_Management.Domain;
 using Steady_Management.WebAPI.DTOs;
 using Steady_Management.WebAPI.Mappers;
 
@@ -10,11 +11,66 @@ namespace Steady_Management.WebAPI.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly OrderBusiness _orderBusiness;
 
         public OrderController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+
+        public OrderController(OrderBusiness orderBusiness)
+        {
+            _orderBusiness = orderBusiness;
+        }
+
+        [HttpGet]
+        public ActionResult<List<Order>> GetAllOrder()
+        {
+            var orders = _orderBusiness.GetAll();
+            if (orders == null || orders.Count == 0)
+            {
+                return NotFound("No se encontraron órdenes.");
+            }
+            return Ok(orders);
+        }
+
+        [HttpGet("client/{clientId}")]
+        public ActionResult<List<Order>> GetOrdersByClientId(int clientId)
+        {
+            var orders = _orderBusiness.GetByClientId(clientId);
+            if (orders == null || orders.Count == 0)
+            {
+                return NotFound($"No se encontraron órdenes para el cliente con ID: {clientId}.");
+            }
+            return Ok(orders);
+        }
+
+        public ActionResult<List<Order>> GetOrdersByCityId(int cityId)
+        {
+            var orders = _orderBusiness.GetByCityId(cityId);
+            if (orders == null || orders.Count == 0)
+            {
+                return NotFound($"No se encontraron órdenes para la ciudad con ID: {cityId}.");
+            }
+            return Ok(orders);
+        }
+
+        [HttpGet("date/{dateString}")]
+        public ActionResult<List<Order>> GetOrdersByDate(string dateString)
+        {
+            if (!DateOnly.TryParse(dateString, out DateOnly orderDate))
+            {
+                return BadRequest("Formato de fecha inválido. Por favor, use el formato YYYY-MM-DD.");
+            }
+
+            var orders = _orderBusiness.GetByDate(orderDate);
+            if (orders == null || orders.Count == 0)
+            {
+                return NotFound($"No se encontraron órdenes para la fecha: {dateString}.");
+            }
+            return Ok(orders);
+        }
+
 
         [HttpPost]
         public IActionResult CreateOrder([FromBody] OrderDTO dto)

@@ -15,6 +15,79 @@ namespace Steady_Management.DataAccess
             this.connectionString = connectionString;
         }
 
+        private static Order Map(SqlDataReader reader) => new()
+        {
+            OrderId = (int)reader["order_id"],
+            ClientId = (int)reader["client_id"],
+            EmployeeId = (int)reader["employee_id"],
+            CityId = (int)reader["city_id"],
+            OrderDate = reader.GetDateTime(reader.GetOrdinal("order_date"))
+        };
+
+        public List<Order> GetAll()
+        {
+            var orders = new List<Order>();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_Order_Read_ALL", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            connection.Open();
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                orders.Add(Map(reader));
+            }
+            return orders;
+        }
+
+        public List<Order> GetByClientId(int clientId)
+        {
+            var orders = new List<Order>();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_Client_Filtraded", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@client_id", clientId);
+            connection.Open();
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                orders.Add(Map(reader));
+            }
+            return orders;
+        }
+
+        public List<Order> GetByCityId(int cityId)
+        {
+            var orders = new List<Order>();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_City_Filtraded", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@city_id", cityId);
+            connection.Open();
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                orders.Add(Map(reader));
+            }
+            return orders;
+        }
+
+        public List<Order> GetByDate(DateOnly orderDate)
+        {
+            var orders = new List<Order>();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand("usp_PedidosPorFecha", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@order_date", orderDate.ToDateTime(TimeOnly.MinValue));
+            connection.Open();
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                orders.Add(Map(reader));
+            }
+            return orders;
+        }
+
+
         public SqlConnection CreateConnection()
         {
             return new SqlConnection(connectionString);

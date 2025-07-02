@@ -14,6 +14,8 @@ namespace Steady_Management.Domain
         private int cityId;
         private DateTime orderDate;
 
+        public Order() { }
+
         public Order(int orderId, int clientId, int employeeId, int cityId, DateTime orderDate)
         {
             this.orderId = orderId;
