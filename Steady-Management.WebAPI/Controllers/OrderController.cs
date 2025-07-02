@@ -165,6 +165,24 @@ namespace Steady_Management.WebAPI.Controllers
             }
         }
 
+        [HttpGet("sales-tax")]
+        public IActionResult GetSalesTaxPercentage()
+        {
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection")!;
+                var service = new OrderBusiness(connectionString);
+
+                decimal taxPercentage = service.GetSalesTaxPercentage();
+                return Ok(taxPercentage);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = $"No se pudo obtener el impuesto: {ex.Message}" });
+            }
+        }
+
+
     }
 }
 

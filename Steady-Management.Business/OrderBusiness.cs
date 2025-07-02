@@ -219,5 +219,10 @@ namespace Steady_Management.Business
             }
         }
 
+        public decimal GetSalesTaxPercentage()
+        {
+            return _orderData.GetSalesTaxPercentage();
+        }
+
     }
 }
