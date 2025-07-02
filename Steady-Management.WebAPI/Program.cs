@@ -1,78 +1,78 @@
 ﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.DataProtection.KeyManagement;
+//using Microsoft.AspNetCore.Mvc.Authorization;
+//using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.IdentityModel.Tokens;
+//using Microsoft.OpenApi.Models;
 using Steady_Management.Business;
 using Steady_Management.Data;
+using SteadyManagement.Business;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1️⃣  JWT configuration
-var jwtCfg = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.UTF8.GetBytes(jwtCfg["Key"]!);
+// 1️⃣  JWT configuration (COMENTADA)
+//var jwtCfg = builder.Configuration.GetSection("JwtSettings");
+//var key = Encoding.UTF8.GetBytes(jwtCfg["Key"]!);
 
-builder.Services.AddControllers(options =>
-{
-    var policy = new AuthorizationPolicyBuilder()
-                     .RequireAuthenticatedUser()
-                     .Build();
-    options.Filters.Add(new AuthorizeFilter(policy));
-});
+// 2️⃣  Filtro global de autorización (COMENTADO)
+//builder.Services.AddControllers(options =>
+//{
+//    var policy = new AuthorizationPolicyBuilder()
+//                     .RequireAuthenticatedUser()
+//                     .Build();
+//    options.Filters.Add(new AuthorizeFilter(policy));
+//});
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Steady-Management.WebAPI", Version = "v1" });
+// 3️⃣  Swagger + JWT (COMENTADO)
+//builder.Services.AddSwaggerGen(c =>
+//{
+//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Steady-Management.WebAPI", Version = "v1" });
+//    var jwtSecurityScheme = new OpenApiSecurityScheme
+//    {
+//        Scheme = "bearer",
+//        BearerFormat = "JWT",
+//        Name = "Authorization",
+//        In = ParameterLocation.Header,
+//        Type = SecuritySchemeType.Http,
+//        Description = "Ingresa el token JWT con 'Bearer ' al inicio.",
+//        Reference = new OpenApiReference
+//        {
+//            Id = JwtBearerDefaults.AuthenticationScheme,
+//            Type = ReferenceType.SecurityScheme
+//        }
+//    };
+//    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+//    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+//    {
+//        { jwtSecurityScheme, Array.Empty<string>() }
+//    });
+//});
 
-    // 🔐 Configuración de seguridad JWT para Swagger
-    var jwtSecurityScheme = new OpenApiSecurityScheme
-    {
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Description = "Ingresa el token JWT con 'Bearer ' al inicio.",
+// 4️⃣  JWT Bearer setup (COMENTADO)
+//builder.Services
+//    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = jwtCfg["Issuer"],
+//            ValidAudience = jwtCfg["Audience"],
+//            IssuerSigningKey = new SymmetricSecurityKey(key)
+//        };
+//    });
 
-        Reference = new OpenApiReference
-        {
-            Id = JwtBearerDefaults.AuthenticationScheme,
-            Type = ReferenceType.SecurityScheme
-        }
-    };
-
-    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        { jwtSecurityScheme, Array.Empty<string>() }
-    });
-});
-
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtCfg["Issuer"],
-            ValidAudience = jwtCfg["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
-        };
-    });
-
-builder.Services.AddScoped<SteadyManagement.Business.DepartmentBusiness>(sp =>
+// 5️⃣  Registro de servicios / dependencias
+builder.Services.AddScoped<DepartmentBusiness>(sp =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
     var connStr = config.GetConnectionString("DefaultConnection");
-    return new SteadyManagement.Business.DepartmentBusiness(connStr);
+    return new DepartmentBusiness(connStr!);
 });
 
 builder.Services.AddScoped<Steady_Management.DataAccess.EmployeeData>(sp =>
@@ -80,31 +80,34 @@ builder.Services.AddScoped<Steady_Management.DataAccess.EmployeeData>(sp =>
     var config = sp.GetRequiredService<IConfiguration>();
     return new Steady_Management.DataAccess.EmployeeData(config);
 });
+builder.Services.AddScoped<Steady_Management.Business.EmployeeBusiness>();
 
-
-builder.Services.AddScoped<Steady_Management.Business.EmployeeBusiness>(sp =>
-{
-    var employeeData = sp.GetRequiredService<Steady_Management.DataAccess.EmployeeData>();
-    return new Steady_Management.Business.EmployeeBusiness(employeeData);
-});
-
-builder.Services.AddScoped<Steady_Management.Business.RoleBusiness>();
 builder.Services.AddScoped<Steady_Management.DataAccess.RoleData>();
+builder.Services.AddScoped<Steady_Management.Business.RoleBusiness>();
 
+// ProductData (versión 1)
+//builder.Services.AddScoped<ProductData>(sp =>
+//{
+//    var cfg = sp.GetRequiredService<IConfiguration>();
+//    var connStr = cfg.GetConnectionString("DefaultConnection");
+//    return new ProductData(connStr!);
+//});
+
+// ProductData (versión 2, duplicada) — ambos comentados
+//builder.Services.AddScoped<ProductData>(sp =>
+//{
+//    var cfg = sp.GetRequiredService<IConfiguration>();
+//    var connStr = cfg.GetConnectionString("DefaultConnection");
+//    return new ProductData(connStr!);
+//});
+
+// Registra la única ProductData/Business que quieras usar
 builder.Services.AddScoped<ProductData>(sp =>
 {
     var cfg = sp.GetRequiredService<IConfiguration>();
     var connStr = cfg.GetConnectionString("DefaultConnection");
     return new ProductData(connStr!);
 });
-
-builder.Services.AddScoped<ProductData>(sp =>
-{
-    var cfg = sp.GetRequiredService<IConfiguration>();
-    var connStr = cfg.GetConnectionString("DefaultConnection");
-    return new ProductData(connStr!);
-});
-
 builder.Services.AddScoped<ProductBusiness>();
 
 builder.Services.AddScoped<CategoryData>(sp =>
@@ -116,35 +119,27 @@ builder.Services.AddScoped<CategoryData>(sp =>
             "Falta la connection string de appsettings.json");
     return new CategoryData(connStr);
 });
-
 builder.Services.AddScoped<CategoryBusiness>();
 
-// Add services to the container.
-
-builder.Services.AddAuthorization();
+// 6️⃣  MVC / OpenAPI básico
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddOpenApi();
+//builder.Services.AddAuthorization();        // COMENTADO: no queremos auth
+//builder.Services.AddSwaggerGen();          // opcional, sin JWT
+//builder.Services.AddOpenApi();             // COMENTADO si no usas OpenApi alias
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 7️⃣  Pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.MapOpenApi();    // COMENTADO si no usas
+    //app.UseSwagger();    // COMENTADO si no usas
+    //app.UseSwaggerUI();  // COMENTADO si no usas
 }
 
-/*
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-*/
+//app.UseHttpsRedirection();   // COMENTADO: HTTP puro
+//app.UseAuthentication();     // COMENTADO
+//app.UseAuthorization();      // COMENTADO
 
 app.MapControllers();
-
 app.Run();
