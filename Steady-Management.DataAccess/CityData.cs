@@ -94,8 +94,19 @@ namespace Steady_Management.DataAccess
                 CommandType = CommandType.StoredProcedure
             };
             cmd.Parameters.AddWithValue("@city_id", id);
+
             conn.Open();
-            return cmd.ExecuteNonQuery() > 0;
+            try
+            {
+                return cmd.ExecuteNonQuery() > 0;
+            }
+            catch (SqlException ex) when (ex.Number == 547)
+            {
+                // 547 = violación de FK
+                throw new InvalidOperationException(
+                    "No se puede eliminar esta ciudad porque tiene clientes asociados.", ex);
+            }
         }
+
     }
 }

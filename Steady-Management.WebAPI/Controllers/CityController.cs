@@ -60,9 +60,20 @@ namespace Steady_Management.WebApi.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var deleted = _biz.Delete(id);
-            if (!deleted) return NotFound();
-            return NoContent();
+            try
+            {
+                var deleted = _biz.Delete(id);
+                if (!deleted)
+                    return NotFound();
+
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Esto un 400 con el mensaje de ex.Message 
+                return BadRequest(new { error = ex.Message });
+            }
         }
+
     }
 }
