@@ -4,26 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Steady_Management.Domain
+namespace SteadyManagement.Domain
 {
     public class City
     {
-        private int cityId;
-        private string cityName;
-        private int province;
-        private string country;
+        public int CityId { get; set; }
+        public string CityName { get; set; }
+
+        
+        public int Province { get; set; }
+
+        public string Country { get; set; }
+
+        public City() { }
 
         public City(int cityId, string cityName, int province, string country)
         {
-            this.cityId = cityId;
-            this.cityName = cityName;
-            this.province = province;
-            this.country = country;
+            CityId = cityId;
+            CityName = cityName;
+            Province = province;
+            Country = country;
         }
-
-        public int CityId { get => cityId; set => cityId = value; }
-        public string CityName { get => cityName; set => cityName = value; }
-        public int Province { get => province; set => province = value; }
-        public string Country { get => country; set => country = value; }
     }
 }
