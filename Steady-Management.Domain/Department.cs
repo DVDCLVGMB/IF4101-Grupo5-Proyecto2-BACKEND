@@ -11,6 +11,7 @@ namespace Steady_Management.Domain
         private int deptId;
         private string deptName;
 
+        public Department() { }
         public Department(int deptId, string deptName)
         {
             this.deptId = deptId;
