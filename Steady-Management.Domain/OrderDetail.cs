@@ -13,6 +13,8 @@ namespace Steady_Management.Domain
         private int quantity;
         private decimal unitPrice;
 
+        public OrderDetail() { }
+
         public OrderDetail(int orderId, int productId, int quantity, decimal unitPrice)
         {
             this.orderId = orderId;

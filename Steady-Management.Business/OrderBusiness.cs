@@ -10,13 +10,42 @@ namespace Steady_Management.Business
     public class OrderBusiness
     {
         private readonly OrderData _orderData;
+        private readonly OrderData orderData;
         private readonly ProductData _productData;
 
         public OrderBusiness(string connectionString)
         {
+            
             _orderData = new OrderData(connectionString);
             _productData = new ProductData(connectionString);
         }
+
+        public OrderBusiness(OrderData orderData)
+        {
+            this.orderData = orderData;
+        }
+
+
+        public List<Order> GetAll()
+        {
+            return orderData.GetAll();
+        }
+
+        public List<Order> GetByClientId(int id)
+        {
+            return orderData.GetByClientId(id);
+        }
+
+        public List<Order> GetByCityId(int id)
+        {
+            return orderData.GetByCityId(id);
+        }
+
+        public List<Order> GetByDate(DateOnly date)
+        {
+            return orderData.GetByDate(date);
+        }
+
 
         public void CreateOrder(Order order, List<OrderDetail> details, Payment payment)
         {
