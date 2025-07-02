@@ -205,10 +205,7 @@ namespace Steady_Management.Business
                 _orderData.DeletePayment(orderId, connection, transaction);
 
                 // 5. Eliminar orden principal
-                string sql = @"DELETE FROM [Order] WHERE order_id = @order_id";
-                using var deleteOrderCmd = new SqlCommand(sql, connection, transaction);
-                deleteOrderCmd.Parameters.AddWithValue("@order_id", orderId);
-                deleteOrderCmd.ExecuteNonQuery();
+                _orderData.DeleteOrder(orderId, connection, transaction);
 
                 transaction.Commit();
             }
