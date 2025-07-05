@@ -19,5 +19,9 @@
 		<ProjectReference Include="..\Steady-Management.Domain\Steady-Management.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Properties\PublishProfiles\" />
+	</ItemGroup>
+
 </Project>
 

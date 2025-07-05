@@ -415,3 +415,7 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Ignorar Web-Deploy de VS
+**/Properties/ServiceDependencies/
+*.Publish.json
