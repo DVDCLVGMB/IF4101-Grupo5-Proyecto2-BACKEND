@@ -43,23 +43,33 @@ namespace Steady_Management.DataAccess
         public IEnumerable<Inventory> GetAll()
         {
             const string sql = @"
-                SELECT product_id, size, item_quantity, limit_until_restock
-                  FROM Inventory;
-            ";
+        SELECT 
+            inventory_id,    -- ← lo añadimos
+            product_id, 
+            size, 
+            item_quantity, 
+            limit_until_restock
+          FROM Inventory;
+    ";
 
             var list = new List<Inventory>();
             using var conn = new SqlConnection(_connectionString);
             using var cmd = new SqlCommand(sql, conn);
-
             conn.Open();
             using var rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                list.Add(ReadInventory(rdr));
+                list.Add(new Inventory(
+                    rdr.GetInt32(rdr.GetOrdinal("inventory_id")),         
+                    rdr.GetInt32(rdr.GetOrdinal("product_id")),
+                    rdr.IsDBNull(rdr.GetOrdinal("size")) ? null : rdr.GetString(rdr.GetOrdinal("size")),
+                    rdr.GetInt32(rdr.GetOrdinal("item_quantity")),
+                    rdr.GetInt32(rdr.GetOrdinal("limit_until_restock"))
+                ));
             }
-
             return list;
         }
+
 
         /// <summary>
         /// Obtiene el inventario de un producto por su ID, o null si no existe.
@@ -67,9 +77,14 @@ namespace Steady_Management.DataAccess
         public Inventory? GetByProductId(int productId)
         {
             const string sql = @"
-                SELECT product_id, size, item_quantity, limit_until_restock
-                  FROM Inventory
-                 WHERE product_id = @product_id;
+                    SELECT
+                      inventory_id,
+                      product_id,
+                      size,
+                      item_quantity,
+                      limit_until_restock
+                    FROM Inventory
+                    WHERE product_id = @product_id;
             ";
 
             using var conn = new SqlConnection(_connectionString);
@@ -128,6 +143,7 @@ namespace Steady_Management.DataAccess
         // Helper: mapea un SqlDataReader a Inventory
         private static Inventory ReadInventory(SqlDataReader rdr) =>
             new Inventory(
+                rdr.GetInt32(rdr.GetOrdinal("inventory_id")),
                 rdr.GetInt32(rdr.GetOrdinal("product_id")),
                 rdr.IsDBNull(rdr.GetOrdinal("size"))
                     ? null

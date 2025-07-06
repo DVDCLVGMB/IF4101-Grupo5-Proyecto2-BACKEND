@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Runtime.Intrinsics.Arm;
 
 namespace Steady_Management.DataAccess
 {
@@ -161,6 +162,7 @@ namespace Steady_Management.DataAccess
             if (reader.Read())
             {
                 return new Inventory(
+                    reader.GetInt32(reader.GetOrdinal("inventory_id")),
                     reader.GetInt32(reader.GetOrdinal("product_id")),
                     reader.IsDBNull(reader.GetOrdinal("size")) ? string.Empty : reader.GetString(reader.GetOrdinal("size")),
                     reader.GetInt32(reader.GetOrdinal("item_quantity")),
@@ -186,6 +188,7 @@ namespace Steady_Management.DataAccess
             if (reader.Read())
             {
                 return new Inventory(
+                    reader.GetInt32(reader.GetOrdinal("inventory_id")),
                     reader.GetInt32(reader.GetOrdinal("product_id")),
                     reader.IsDBNull(reader.GetOrdinal("size")) ? string.Empty : reader.GetString(reader.GetOrdinal("size")),
                     reader.GetInt32(reader.GetOrdinal("item_quantity")),

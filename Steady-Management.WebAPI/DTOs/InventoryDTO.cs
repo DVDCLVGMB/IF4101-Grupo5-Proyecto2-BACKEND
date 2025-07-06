@@ -1,26 +1,22 @@
-﻿// Steady_Management.Api/Dtos/InventoryDto.cs
-namespace Steady_Management.Api.Dtos
+﻿using System.Text.Json.Serialization;
+
+public class InventoryDto
 {
-    public class InventoryDto
-    {
-        /// <summary>
-        /// Identificador del producto al que pertenece este inventario.
-        /// </summary>
-        public int ProductId { get; set; }
+    [JsonPropertyName("inventoryId")]
+    public int InventoryId { get; set; }
 
-        /// <summary>
-        /// Talla del producto (S, M, L, XL, XXL). Puede ser nulo para productos sin talla.
-        /// </summary>
-        public string? Size { get; set; }
+    [JsonPropertyName("productId")]
+    public int ProductId { get; set; }
 
-        /// <summary>
-        /// Cantidad actual de unidades en stock.
-        /// </summary>
-        public int ItemQuantity { get; set; }
+    [JsonPropertyName("itemQuantity")]
+    public int ItemQuantity { get; set; }
 
-        /// <summary>
-        /// Límite mínimo de existencias antes de necesitar reabastecer.
-        /// </summary>
-        public int LimitUntilRestock { get; set; }
-    }
+    [JsonPropertyName("limitUntilRestock")]
+    public int LimitUntilRestock { get; set; }
+
+    [JsonPropertyName("size")]
+    public string? Size { get; set; }
+
+    // Este no lo devuelve la API, lo rellenas en tu View code-behind
+    public string ProductName { get; set; } = string.Empty;
 }

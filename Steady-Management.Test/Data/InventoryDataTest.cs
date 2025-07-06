@@ -35,6 +35,7 @@ namespace Steady_Management.Tests
             var prodId = _productData.Create(new Product(0, 1, "TestProd", 9, true));
 
             var inv = new Inventory(
+                1,
                 productId: prodId,
                 size: "M",
                 itemQuantity: 5,
@@ -57,7 +58,7 @@ namespace Steady_Management.Tests
         {
             // Arrange
             var prodId = _productData.Create(new Product(0, 1, "ProdAll", 2, true));
-            _dataAccess.Create(new Inventory(prodId, null, 10, 3));
+            _dataAccess.Create(new Inventory(1, prodId,null, 10, 3));
 
             // Act
             List<Inventory> all = _dataAccess.GetAll().ToList();
@@ -84,9 +85,9 @@ namespace Steady_Management.Tests
         {
             // Arrange
             var prodId = _productData.Create(new Product(0, 1, "ProdUpd", 3, true));
-            _dataAccess.Create(new Inventory(prodId, "S", 7, 2));
+            _dataAccess.Create(new Inventory(1, prodId, "S", 7, 2));
 
-            var toUpdate = new Inventory(prodId, "L", 15, 5);
+            var toUpdate = new Inventory(1, prodId, "L", 15, 5);
 
             // Act
             var updated = _dataAccess.Update(toUpdate);
@@ -105,7 +106,7 @@ namespace Steady_Management.Tests
         {
             // Arrange
             var prodId = _productData.Create(new Product(0, 1, "ProdDel", 3, true));
-            _dataAccess.Create(new Inventory(prodId, null, 20, 10));
+            _dataAccess.Create(new Inventory(2, prodId, null, 20, 10));
 
             // Act
             var deleted = _dataAccess.Delete(prodId);
