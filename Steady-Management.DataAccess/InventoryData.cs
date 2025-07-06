@@ -19,11 +19,12 @@ namespace Steady_Management.DataAccess
         /// <summary>
         /// Inserta un nuevo registro de inventario.
         /// </summary>
-        public void Create(Inventory inv)
+        public int Create(Inventory inv)
         {
             const string sql = @"
                 INSERT INTO Inventory (product_id, size, item_quantity, limit_until_restock)
                 VALUES (@product_id, @size, @item_quantity, @limit_until_restock);
+                SELECT CAST(SCOPE_IDENTITY() AS int);
             ";
 
             using var conn = new SqlConnection(_connectionString);
@@ -34,8 +35,10 @@ namespace Steady_Management.DataAccess
             cmd.Parameters.AddWithValue("@limit_until_restock", inv.LimitUntilRestock);
 
             conn.Open();
-            cmd.ExecuteNonQuery();
+            // ExecuteScalar nos devuelve el nuevo identity
+            return (int)cmd.ExecuteScalar()!;
         }
+
 
         /// <summary>
         /// Obtiene todos los registros de inventario.
@@ -98,26 +101,45 @@ namespace Steady_Management.DataAccess
             return ReadInventory(rdr);
         }
 
-        /// <summary>
-        /// Actualiza un registro de inventario existente. Devuelve true si afectó una fila.
-        /// </summary>
+        public Inventory? GetById(int inventoryId)
+        {
+            const string sql = @"
+            SELECT inventory_id, product_id, size, item_quantity, limit_until_restock
+              FROM Inventory
+             WHERE inventory_id = @inventory_id;
+        ";
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@inventory_id", inventoryId);
+            conn.Open();
+            using var rdr = cmd.ExecuteReader();
+            if (!rdr.Read()) return null;
+            return new Inventory(
+                rdr.GetInt32(rdr.GetOrdinal("inventory_id")),
+                rdr.GetInt32(rdr.GetOrdinal("product_id")),
+                rdr.IsDBNull(rdr.GetOrdinal("size")) ? null : rdr.GetString(rdr.GetOrdinal("size")),
+                rdr.GetInt32(rdr.GetOrdinal("item_quantity")),
+                rdr.GetInt32(rdr.GetOrdinal("limit_until_restock"))
+            );
+        }
+
         public bool Update(Inventory inv)
         {
             const string sql = @"
-                UPDATE Inventory
-                   SET size                = @size,
-                       item_quantity       = @item_quantity,
-                       limit_until_restock = @limit_until_restock
-                 WHERE product_id = @product_id;
-            ";
-
+            UPDATE Inventory
+               SET product_id           = @product_id,
+                   size                 = @size,
+                   item_quantity        = @item_quantity,
+                   limit_until_restock  = @limit_until_restock
+             WHERE inventory_id = @inventory_id;
+        ";
             using var conn = new SqlConnection(_connectionString);
             using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@inventory_id", inv.InventoryId);
             cmd.Parameters.AddWithValue("@product_id", inv.ProductId);
             cmd.Parameters.AddWithValue("@size", (object?)inv.Size ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@item_quantity", inv.ItemQuantity);
             cmd.Parameters.AddWithValue("@limit_until_restock", inv.LimitUntilRestock);
-
             conn.Open();
             return cmd.ExecuteNonQuery() > 0;
         }
@@ -151,5 +173,20 @@ namespace Steady_Management.DataAccess
                 rdr.GetInt32(rdr.GetOrdinal("item_quantity")),
                 rdr.GetInt32(rdr.GetOrdinal("limit_until_restock"))
             );
+
+        public bool DeleteById(int inventoryId)
+        {
+            const string sql = @"
+                DELETE FROM Inventory
+                 WHERE inventory_id = @inventory_id;
+            ";
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@inventory_id", inventoryId);
+            conn.Open();
+            return cmd.ExecuteNonQuery() > 0;
+        }
+
+
     }
 }

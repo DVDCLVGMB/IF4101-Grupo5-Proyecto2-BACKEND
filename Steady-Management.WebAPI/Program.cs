@@ -86,26 +86,12 @@ builder.Services.AddScoped<Steady_Management.Business.EmployeeBusiness>();
 builder.Services.AddScoped<Steady_Management.DataAccess.RoleData>();
 builder.Services.AddScoped<Steady_Management.Business.RoleBusiness>();
 
-// ProductData (versión 1)
 builder.Services.AddScoped<ProductData>(sp =>
 {
     var cfg = sp.GetRequiredService<IConfiguration>();
-    var connStr = cfg.GetConnectionString("DefaultConnection");
-    return new ProductData(connStr!);
-});
-
-builder.Services.AddScoped<ProductData>(sp =>
-{
-    var cfg = sp.GetRequiredService<IConfiguration>();
-    var connStr = cfg.GetConnectionString("DefaultConnection");
-    return new ProductData(connStr!);
-});
-
-builder.Services.AddScoped<ProductData>(sp =>
-{
-    var cfg = sp.GetRequiredService<IConfiguration>();
-    var connStr = cfg.GetConnectionString("DefaultConnection");
-    return new ProductData(connStr!);
+    var connStr = cfg.GetConnectionString("DefaultConnection")
+                  ?? throw new InvalidOperationException("Falta DefaultConnection");
+    return new ProductData(connStr);
 });
 builder.Services.AddScoped<ProductBusiness>();
 

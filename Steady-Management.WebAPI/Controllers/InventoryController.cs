@@ -54,25 +54,36 @@ namespace Steady_Management.Api.Controllers
         }
 
 
-        // GET api/inventory/5
-        [HttpGet("{productId}")]
-        public ActionResult<InventoryDto> GetByProductId(int productId)
+        [HttpGet("{inventoryId:int}")]
+        public ActionResult<InventoryResponseDto> GetById(int inventoryId)
         {
-            try
+            var inv = _business.GetById(inventoryId);         
+            var prodName = _productData
+                .GetAll()
+                .FirstOrDefault(p => p.ProductId == inv.ProductId)
+                ?.ProductName
+                ?? "<desconocido>";
+
+            var dto = new InventoryResponseDto
             {
-                var inv = _business.GetInventoryByProductId(productId);
-                return Ok(MapToDto(inv));
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
+                InventoryId = inv.InventoryId,
+                ProductId = inv.ProductId,
+                ItemQuantity = inv.ItemQuantity,
+                LimitUntilRestock = inv.LimitUntilRestock,
+                Size = inv.Size,
+                ProductName = prodName
+            };
+
+            return Ok(dto);
         }
 
         // POST api/inventory
         [HttpPost]
-        public ActionResult<InventoryDto> Create([FromBody] InventoryDto dto)
+        public ActionResult<InventoryResponseDto> Create([FromBody] InventoryDto dto)
         {
+            if (dto == null) return BadRequest();
+
+            // 1) crear y obtener Inventory con su nuevo ID
             var toInsert = new Inventory(
                 dto.InventoryId,
                 dto.ProductId,
@@ -80,23 +91,38 @@ namespace Steady_Management.Api.Controllers
                 dto.ItemQuantity,
                 dto.LimitUntilRestock
             );
+            var createdInv = _business.CreateInventory(toInsert);
 
-            _business.CreateInventory(toInsert);
+            // 2) rellenar el nombre de producto
+            var prodName = _productData
+                               .GetAll()
+                               .FirstOrDefault(p => p.ProductId == createdInv.ProductId)
+                           ?.ProductName ?? "<desconocido>";
 
-            // Devolver la entidad recién creada (sin ubicación concreta)
-            var created = _business.GetInventoryByProductId(dto.ProductId);
+            // 3) armar DTO de respuesta
+            var response = new InventoryResponseDto
+            {
+                InventoryId = createdInv.InventoryId,
+                ProductId = createdInv.ProductId,
+                ItemQuantity = createdInv.ItemQuantity,
+                LimitUntilRestock = createdInv.LimitUntilRestock,
+                Size = createdInv.Size,
+                ProductName = prodName
+            };
+
+            // 4) devolver 201 con la ruta GET correcta
             return CreatedAtAction(
-                nameof(GetByProductId),
-                new { productId = created.ProductId },
-                MapToDto(created)
+                nameof(GetById),                         // debe existir [HttpGet("{inventoryId:int}")]
+                new { inventoryId = createdInv.InventoryId },
+                response
             );
         }
 
         // PUT api/inventory/5
-        [HttpPut("{productId}")]
-        public IActionResult Update(int productId, [FromBody] InventoryDto dto)
+        [HttpPut("{inventoryId}")]
+        public IActionResult Update(int inventoryId, [FromBody] InventoryDto dto)
         {
-            if (productId != dto.ProductId)
+            if (inventoryId != dto.InventoryId)
                 return BadRequest("El ID de ruta no coincide con el cuerpo.");
 
             var toUpdate = new Inventory(
@@ -119,12 +145,12 @@ namespace Steady_Management.Api.Controllers
         }
 
         // DELETE api/inventory/5
-        [HttpDelete("{productId}")]
-        public IActionResult Delete(int productId)
+        [HttpDelete("{inventoryId}")]
+        public IActionResult Delete(int inventoryId)
         {
             try
             {
-                _business.DeleteInventory(productId);
+                _business.DeleteInventoryById(inventoryId);
                 return NoContent();
             }
             catch (KeyNotFoundException)
@@ -132,6 +158,8 @@ namespace Steady_Management.Api.Controllers
                 return NotFound();
             }
         }
+
+
 
         // Mapea dominio ⇄ DTO
         private static InventoryDto MapToDto(Inventory inv) => new InventoryDto
