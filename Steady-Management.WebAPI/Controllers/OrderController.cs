@@ -35,6 +35,29 @@ namespace Steady_Management.WebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<OrderResponseDto> GetById(int id)
+        {
+            // Usamos el GetAll existente
+            var pedidos = _orderBusiness.GetAll();  // devuelve IEnumerable<Order>
+
+            // Filtramos por la PK
+            var o = pedidos.FirstOrDefault(x => x.OrderId == id);
+            if (o == null) return NotFound();
+
+            // Mapeamos al DTO mínimo que tu front espera
+            var dto = new OrderResponseDto
+            {
+                OrderId = o.OrderId,
+                ClientId = o.ClientId,
+                EmployeeId = o.EmployeeId,
+                CityId = o.CityId,
+                OrderDate = o.OrderDate
+            };
+            return Ok(dto);
+        }
+
+
         [HttpGet("all")]  // Ruta específica: api/Order/all
         public ActionResult<List<OrderDTO>> GetAllOrders()
         {
@@ -123,13 +146,28 @@ namespace Steady_Management.WebAPI.Controllers
         [HttpPut("{orderId}")]
         public IActionResult UpdateOrder(int orderId, [FromBody] OrderDTO dto)
         {
+            // 1) Eliminar la validación automática de OrderDetails
+            if (ModelState.ContainsKey(nameof(dto.OrderDetails)))
+            {
+                ModelState[nameof(dto.OrderDetails)].Errors.Clear();
+            }
+
+            // 2) Si hay otros errores de validación, los devolvemos
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
+                // 3) Mapear los objetos
                 var updatedOrder = OrderMapper.ToOrder(dto);
-                var updatedDetails = OrderMapper.ToOrderDetails(dto);
+                var updatedDetails = OrderMapper.ToOrderDetails(dto) ?? new List<OrderDetail>();
                 var updatedPayment = OrderMapper.ToPayment(dto);
 
+                // 4) Llamar al negocio
                 _orderBusiness.UpdateOrder(orderId, updatedOrder, updatedDetails, updatedPayment);
+
                 return Ok(new { message = "Orden actualizada correctamente." });
             }
             catch (Exception ex)
@@ -137,6 +175,7 @@ namespace Steady_Management.WebAPI.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
+
 
         [HttpDelete("{orderId}")]
         public IActionResult DeleteOrder(int orderId)

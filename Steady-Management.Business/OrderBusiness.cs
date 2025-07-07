@@ -20,7 +20,6 @@ namespace Steady_Management.Business
             _paymentData = new PaymentData(connectionString);
         }
 
-
         public List<Order> GetAll()
         {
             return _orderData.GetAll();
@@ -121,19 +120,49 @@ namespace Steady_Management.Business
 
             try
             {
-                var originalDetails = _orderData.GetOrderDetailsByOrderId(orderId);
-
-                // Restaurar inventario previo
-                foreach (var detail in originalDetails)
+                // Si no hay detalles nuevos, solo actualiza la cabecera y termina
+                if (newDetails == null || newDetails.Count == 0)
                 {
-                    _orderData.RestoreInventoryFromCancelledOrder(detail.ProductId, detail.Quantity, connection, transaction);
+                    const string sql = @"
+                UPDATE Orders
+                   SET client_id   = @clientId,
+                       employee_id = @employeeId,
+                       city_id     = @cityId,
+                       order_date  = @orderDate
+                 WHERE order_id    = @orderId;
+            ";
+
+                    using var cmd = connection.CreateCommand();
+                    cmd.Transaction = transaction;
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@clientId", updatedOrder.ClientId);
+                    cmd.Parameters.AddWithValue("@employeeId", updatedOrder.EmployeeId);
+                    cmd.Parameters.AddWithValue("@cityId", updatedOrder.CityId);
+                    cmd.Parameters.AddWithValue("@orderDate", updatedOrder.OrderDate);
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+
+                    cmd.ExecuteNonQuery();
+                    transaction.Commit();
+                    return;
                 }
 
-                // Eliminar detalles y pago anterior
+                // 1) Restaurar inventario de los detalles originales
+                var originalDetails = _orderData.GetOrderDetailsByOrderId(orderId);
+                foreach (var detail in originalDetails)
+                {
+                    _orderData.RestoreInventoryFromCancelledOrder(
+                        detail.ProductId,
+                        detail.Quantity,
+                        connection,
+                        transaction
+                    );
+                }
+
+                // 2) Eliminar detalles y pago previo
                 _orderData.DeleteOrderDetails(orderId, connection, transaction);
                 _paymentData.DeleteByOrderId(orderId, connection, transaction);
 
-                // Obtener impuesto actual
+                // 3) Recalcular subtotal e impuestos con los detalles nuevos
                 var salesTaxPercentage = _orderData.GetSalesTaxPercentage() / 100m;
                 decimal subtotal = 0;
                 decimal totalImpuestos = 0;
@@ -144,9 +173,13 @@ namespace Steady_Management.Business
                     if (product == null)
                         throw new InvalidOperationException("Error en la inserción. Compruebe los datos ingresados.");
 
-                    var inventory = _orderData.GetInventoryByProductId(detail.ProductId, connection, transaction);
+                    var inventory = _orderData.GetInventoryByProductId(
+                        detail.ProductId, connection, transaction
+                    );
                     if (inventory == null || inventory.ItemQuantity < detail.Quantity)
-                        throw new InvalidOperationException($"No hay suficiente inventario para el producto: {product.ProductName}.");
+                        throw new InvalidOperationException(
+                            $"No hay suficiente inventario para el producto: {product.ProductName}."
+                        );
 
                     decimal subtotalProducto = detail.UnitPrice * detail.Quantity;
                     subtotal += subtotalProducto;
@@ -156,14 +189,16 @@ namespace Steady_Management.Business
 
                     detail.OrderId = orderId;
                     _orderData.InsertOrderDetail(detail, connection, transaction);
-                    _orderData.UpdateInventoryAfterSale(detail.ProductId, detail.Quantity, connection, transaction);
+                    _orderData.UpdateInventoryAfterSale(
+                        detail.ProductId, detail.Quantity, connection, transaction
+                    );
                 }
 
+                // 4) Insertar nuevo pago
                 decimal total = subtotal + totalImpuestos;
                 updatedPayment.OrderId = orderId;
                 updatedPayment.PaymentQuantity = total;
                 updatedPayment.PaymentDate = DateTime.Now;
-
                 _paymentData.Insert(updatedPayment, connection, transaction);
 
                 transaction.Commit();
