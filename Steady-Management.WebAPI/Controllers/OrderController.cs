@@ -18,6 +18,23 @@ namespace Steady_Management.WebAPI.Controllers
             _orderBusiness = orderBusiness;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<OrderResponseDto>>> GetAll()
+        {
+            // Trae los pedidos con sus navegaciones
+            var pedidos = _orderBusiness.GetAll();
+            // Mapéalos a tu DTO de respuesta
+            var result = pedidos.Select(o => new OrderResponseDto
+            {
+                OrderId = o.OrderId,
+                ClientId = o.ClientId,      // usa la entidad Client
+                EmployeeId = o.EmployeeId,   // usa la entidad Employee
+                CityId = o.CityId,           // usa la entidad City
+                OrderDate = o.OrderDate
+            });
+            return Ok(result);
+        }
+
         [HttpGet("all")]  // Ruta específica: api/Order/all
         public ActionResult<List<OrderDTO>> GetAllOrders()
         {

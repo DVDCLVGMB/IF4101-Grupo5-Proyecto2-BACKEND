@@ -10,7 +10,6 @@ namespace Steady_Management.Business
     public class OrderBusiness
     {
         private readonly OrderData _orderData;
-        private readonly OrderData orderData;
         private readonly ProductData _productData;
         private readonly PaymentData _paymentData;
 
@@ -24,22 +23,22 @@ namespace Steady_Management.Business
 
         public List<Order> GetAll()
         {
-            return orderData.GetAll();
+            return _orderData.GetAll();
         }
 
         public List<Order> GetByClientId(int id)
         {
-            return orderData.GetByClientId(id);
+            return _orderData.GetByClientId(id);
         }
 
         public List<Order> GetByCityId(int id)
         {
-            return orderData.GetByCityId(id);
+            return _orderData.GetByCityId(id);
         }
 
         public List<Order> GetByDate(DateOnly date)
         {
-            return orderData.GetByDate(date);
+            return _orderData.GetByDate(date);
         }
 
 
