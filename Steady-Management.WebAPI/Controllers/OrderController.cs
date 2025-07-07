@@ -10,24 +10,36 @@ namespace Steady_Management.WebAPI.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
         private readonly OrderBusiness _orderBusiness;
 
-        public OrderController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
+        // Un solo constructor con inyección de dependencias
         public OrderController(OrderBusiness orderBusiness)
         {
             _orderBusiness = orderBusiness;
         }
 
-        [HttpGet]
-        public ActionResult<List<Order>> GetAllOrder()
+        [HttpGet("all")]  // Ruta específica: api/Order/all
+        public ActionResult<List<OrderDTO>> GetAllOrders()
+        {
+            try
+            {
+                var rawData = _orderBusiness.GetAllOrders();
+                var dtos = rawData.Select(x =>
+                    OrderMapper.ToOrderDto(x.Order, x.Details, x.Payment, x.PaymentMethodName)
+                ).ToList();
+                return Ok(dtos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpGet("all-raw")]  // Ruta específica: api/Order/all-raw
+        public ActionResult<List<Order>> GetAllOrderRaw()
         {
             var orders = _orderBusiness.GetAll();
-            if (orders == null || orders.Count == 0)
+            if (orders == null || !orders.Any())
             {
                 return NotFound("No se encontraron órdenes.");
             }
@@ -38,17 +50,18 @@ namespace Steady_Management.WebAPI.Controllers
         public ActionResult<List<Order>> GetOrdersByClientId(int clientId)
         {
             var orders = _orderBusiness.GetByClientId(clientId);
-            if (orders == null || orders.Count == 0)
+            if (orders == null || !orders.Any())
             {
                 return NotFound($"No se encontraron órdenes para el cliente con ID: {clientId}.");
             }
             return Ok(orders);
         }
 
+        [HttpGet("city/{cityId}")]  // Añadido el atributo [HttpGet]
         public ActionResult<List<Order>> GetOrdersByCityId(int cityId)
         {
             var orders = _orderBusiness.GetByCityId(cityId);
-            if (orders == null || orders.Count == 0)
+            if (orders == null || !orders.Any())
             {
                 return NotFound($"No se encontraron órdenes para la ciudad con ID: {cityId}.");
             }
@@ -60,64 +73,33 @@ namespace Steady_Management.WebAPI.Controllers
         {
             if (!DateOnly.TryParse(dateString, out DateOnly orderDate))
             {
-                return BadRequest("Formato de fecha inválido. Por favor, use el formato YYYY-MM-DD.");
+                return BadRequest("Formato de fecha inválido. Use el formato YYYY-MM-DD.");
             }
 
             var orders = _orderBusiness.GetByDate(orderDate);
-            if (orders == null || orders.Count == 0)
+            if (orders == null || !orders.Any())
             {
                 return NotFound($"No se encontraron órdenes para la fecha: {dateString}.");
             }
             return Ok(orders);
         }
 
-
         [HttpPost]
         public IActionResult CreateOrder([FromBody] OrderDTO dto)
         {
             try
-            { 
-              
-                string connectionString = _configuration.GetConnectionString("DefaultConnection")!;
-
-                // Convertimos el DTO a entidades de dominio
+            {
                 var order = OrderMapper.ToOrder(dto);
                 var orderDetails = OrderMapper.ToOrderDetails(dto);
                 var payment = OrderMapper.ToPayment(dto);
 
-                // Creamos la orden
-                var service = new OrderBusiness(connectionString);
-                service.CreateOrder(order, orderDetails, payment);
-
+                _orderBusiness.CreateOrder(order, orderDetails, payment);
                 return Ok(new { message = "Orden creada correctamente." });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error = ex.Message });
-            }
-        }
-
-
-
-        [HttpGet]
-        public ActionResult<List<OrderDTO>> GetAllOrders()
-        {
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection")!;
-                var service = new OrderBusiness(connectionString);
-
-                var rawData = service.GetAllOrders();
-
-                var dtos = rawData.Select(x =>
-                    OrderMapper.ToOrderDto(x.Order, x.Details, x.Payment, x.PaymentMethodName)
-                ).ToList();
-
-                return Ok(dtos);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
+                Console.WriteLine("Error en CreateOrder: " + ex.ToString()); // Para consola
+                return BadRequest(new { error = ex.ToString() }); // Devuelve todo el stack trace para pruebas
             }
         }
 
@@ -126,15 +108,11 @@ namespace Steady_Management.WebAPI.Controllers
         {
             try
             {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection")!;
-                var service = new OrderBusiness(connectionString);
-
                 var updatedOrder = OrderMapper.ToOrder(dto);
                 var updatedDetails = OrderMapper.ToOrderDetails(dto);
                 var updatedPayment = OrderMapper.ToPayment(dto);
 
-                service.UpdateOrder(orderId, updatedOrder, updatedDetails, updatedPayment);
-
+                _orderBusiness.UpdateOrder(orderId, updatedOrder, updatedDetails, updatedPayment);
                 return Ok(new { message = "Orden actualizada correctamente." });
             }
             catch (Exception ex)
@@ -148,11 +126,7 @@ namespace Steady_Management.WebAPI.Controllers
         {
             try
             {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection")!;
-                var service = new OrderBusiness(connectionString);
-
-                service.DeleteOrder(orderId);
-
+                _orderBusiness.DeleteOrder(orderId);
                 return Ok(new { message = "Orden eliminada correctamente." });
             }
             catch (KeyNotFoundException ex)
@@ -170,10 +144,7 @@ namespace Steady_Management.WebAPI.Controllers
         {
             try
             {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection")!;
-                var service = new OrderBusiness(connectionString);
-
-                decimal taxPercentage = service.GetSalesTaxPercentage();
+                decimal taxPercentage = _orderBusiness.GetSalesTaxPercentage();
                 return Ok(taxPercentage);
             }
             catch (Exception ex)
@@ -181,11 +152,5 @@ namespace Steady_Management.WebAPI.Controllers
                 return BadRequest(new { error = $"No se pudo obtener el impuesto: {ex.Message}" });
             }
         }
-
-
     }
 }
-
-
-
-

@@ -12,17 +12,13 @@ namespace Steady_Management.Business
         private readonly OrderData _orderData;
         private readonly OrderData orderData;
         private readonly ProductData _productData;
+        private readonly PaymentData _paymentData;
 
         public OrderBusiness(string connectionString)
         {
-            
             _orderData = new OrderData(connectionString);
             _productData = new ProductData(connectionString);
-        }
-
-        public OrderBusiness(OrderData orderData)
-        {
-            this.orderData = orderData;
+            _paymentData = new PaymentData(connectionString);
         }
 
 
@@ -87,7 +83,7 @@ namespace Steady_Management.Business
                 payment.PaymentQuantity = total;
                 payment.PaymentDate = DateTime.Now;
 
-                _orderData.InsertPayment(payment, connection, transaction);
+                _paymentData.Insert(payment, connection, transaction);
 
                 transaction.Commit();
             }
@@ -108,8 +104,8 @@ namespace Steady_Management.Business
             foreach (var order in orders)
             {
                 var details = _orderData.GetOrderDetailsByOrderId(order.OrderId);
-                var payment = _orderData.GetPaymentByOrderId(order.OrderId)!;
-                var methodName = _orderData.GetPaymentMethodName(payment.PaymentMethodId);
+                var payment = _paymentData.GetByOrderId(order.OrderId)!;
+                var methodName = _paymentData.GetPaymentMethodName(payment.PaymentMethodId);
 
                 result.Add((order, details, payment, methodName));
             }
@@ -136,7 +132,7 @@ namespace Steady_Management.Business
 
                 // Eliminar detalles y pago anterior
                 _orderData.DeleteOrderDetails(orderId, connection, transaction);
-                _orderData.DeletePayment(orderId, connection, transaction);
+                _paymentData.DeleteByOrderId(orderId, connection, transaction);
 
                 // Obtener impuesto actual
                 var salesTaxPercentage = _orderData.GetSalesTaxPercentage() / 100m;
@@ -169,7 +165,7 @@ namespace Steady_Management.Business
                 updatedPayment.PaymentQuantity = total;
                 updatedPayment.PaymentDate = DateTime.Now;
 
-                _orderData.InsertPayment(updatedPayment, connection, transaction);
+                _paymentData.Insert(updatedPayment, connection, transaction);
 
                 transaction.Commit();
             }
@@ -202,7 +198,7 @@ namespace Steady_Management.Business
                 _orderData.DeleteOrderDetails(orderId, connection, transaction);
 
                 // 4. Eliminar pago
-                _orderData.DeletePayment(orderId, connection, transaction);
+                _paymentData.DeleteByOrderId(orderId, connection, transaction);
 
                 // 5. Eliminar orden principal
                 _orderData.DeleteOrder(orderId, connection, transaction);

@@ -115,6 +115,14 @@ builder.Services.AddScoped<InventoryData>(sp =>
 });
 builder.Services.AddScoped<InventoryBusiness>();
 
+// Agrega esto en tu Program.cs
+builder.Services.AddScoped<PaymentMethodBusiness>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    string connectionString = configuration.GetConnectionString("DefaultConnection");
+    return new PaymentMethodBusiness(connectionString);
+});
+
 // 6️⃣  MVC / OpenAPI básico
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();

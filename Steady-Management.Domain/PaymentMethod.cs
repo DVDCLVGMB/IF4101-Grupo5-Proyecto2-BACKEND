@@ -11,6 +11,8 @@ namespace Steady_Management.Domain
         private int paymentMethodId;
         private string paymentMethodName;
 
+        public PaymentMethod() { }
+
         public PaymentMethod(int paymentMethodId, string paymentMethodName)
         {
             this.paymentMethodId = paymentMethodId;
