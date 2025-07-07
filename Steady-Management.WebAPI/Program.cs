@@ -123,6 +123,21 @@ builder.Services.AddScoped<PaymentMethodBusiness>(provider =>
     return new PaymentMethodBusiness(connectionString);
 });
 
+builder.Services.AddScoped<OrderBusiness>(sp =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    var connStr = config.GetConnectionString("DefaultConnection");
+    return new OrderBusiness(connStr!);
+});
+
+builder.Services.AddScoped<OrderData>(sp =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    var connStr = config.GetConnectionString("DefaultConnection");
+    return new OrderData(connStr!);
+});
+
+
 // 6️⃣  MVC / OpenAPI básico
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();

@@ -10,7 +10,6 @@ namespace Steady_Management.WebAPI.DTOs
         public OrderDTO()
         {
             OrderDetails = new List<OrderDetailDTO>();
-            CreditCardNumber = string.Empty;
         }
 
 
@@ -38,7 +37,7 @@ namespace Steady_Management.WebAPI.DTOs
         [Required]
         public DateTime PaymentDate { get; set; }
 
-        public string CreditCardNumber { get; set; } = string.Empty;
+        public string? CreditCardNumber { get; set; } = string.Empty;
 
       
         public decimal PaymentQuantity { get; set; }

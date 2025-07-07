@@ -20,12 +20,23 @@ namespace Steady_Management.DataAccess
 
             command.Parameters.AddWithValue("@payment_method_id", payment.PaymentMethodId);
             command.Parameters.AddWithValue("@order_id", payment.OrderId);
-            command.Parameters.AddWithValue("@credit_card_number", payment.CreditCardNumber);
+
+            // Aquí verificamos si CreditCardNumber es null o vacío y enviamos DBNull.Value si es así
+            if (string.IsNullOrWhiteSpace(payment.CreditCardNumber))
+            {
+                command.Parameters.AddWithValue("@credit_card_number", DBNull.Value);
+            }
+            else
+            {
+                command.Parameters.AddWithValue("@credit_card_number", payment.CreditCardNumber);
+            }
+
             command.Parameters.AddWithValue("@payment_quantity", payment.PaymentQuantity);
             command.Parameters.AddWithValue("@payment_date", payment.PaymentDate);
 
             command.ExecuteNonQuery();
         }
+
 
         public Payment? GetByOrderId(int orderId)
         {
